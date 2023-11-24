@@ -2,20 +2,16 @@ package hanshyn.onlinebookstore.repository;
 
 import hanshyn.onlinebookstore.model.Book;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+@RequiredArgsConstructor
 @Repository
 public class BookRepositoryImpl implements BookRepository {
     private final SessionFactory sessionFactory;
-
-    @Autowired
-    public BookRepositoryImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public Book save(Book book) {
@@ -43,7 +39,7 @@ public class BookRepositoryImpl implements BookRepository {
     public List<Book> findAll() {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery(
-                    "SELECT b FROM Book b", Book.class).getResultList();
+                    "FROM Book", Book.class).getResultList();
         } catch (Exception e) {
             throw new RuntimeException("Can't get all books from DB", e);
         }
