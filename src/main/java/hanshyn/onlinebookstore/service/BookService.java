@@ -1,10 +1,13 @@
 package hanshyn.onlinebookstore.service;
 
-import hanshyn.onlinebookstore.model.Book;
+import hanshyn.onlinebookstore.dto.BookDto;
+import hanshyn.onlinebookstore.dto.CreateBookRequestDto;
 import java.util.List;
 
 public interface BookService {
-    Book save(Book book);
+    BookDto save(CreateBookRequestDto requestDto);
 
-    List<Book> getAll();
+    List<BookDto> getAll();
+
+    BookDto getById(Long id);
 }
