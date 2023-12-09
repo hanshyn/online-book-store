@@ -1,6 +1,7 @@
 package hanshyn.onlinebookstore.service;
 
 import hanshyn.onlinebookstore.dto.BookDto;
+import hanshyn.onlinebookstore.dto.BookSearchParameters;
 import hanshyn.onlinebookstore.dto.CreateBookRequestDto;
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface BookService {
     void deleteById(Long id);
 
     BookDto updateById(CreateBookRequestDto requestDto, Long id);
+
+    List<BookDto> search(BookSearchParameters parameters);
 }

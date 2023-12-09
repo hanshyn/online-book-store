@@ -1,6 +1,7 @@
 package hanshyn.onlinebookstore.controller;
 
 import hanshyn.onlinebookstore.dto.BookDto;
+import hanshyn.onlinebookstore.dto.BookSearchParameters;
 import hanshyn.onlinebookstore.dto.CreateBookRequestDto;
 import hanshyn.onlinebookstore.service.BookService;
 import java.util.List;
@@ -47,5 +48,10 @@ public class BookController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         bookService.deleteById(id);
+    }
+
+    @GetMapping("/search")
+    public List<BookDto> searchBooks(BookSearchParameters searchParameters) {
+        return bookService.search(searchParameters);
     }
 }
