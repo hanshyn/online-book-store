@@ -1,13 +1,16 @@
 package hanshyn.onlinebookstore.service;
 
 import hanshyn.onlinebookstore.dto.BookDto;
+import hanshyn.onlinebookstore.dto.BookSearchParameters;
 import hanshyn.onlinebookstore.dto.CreateBookRequestDto;
 import hanshyn.onlinebookstore.exception.EntityNotFoundException;
 import hanshyn.onlinebookstore.mapper.BookMapper;
 import hanshyn.onlinebookstore.model.Book;
-import hanshyn.onlinebookstore.repository.BookRepository;
+import hanshyn.onlinebookstore.repository.book.BookRepository;
+import hanshyn.onlinebookstore.repository.book.BookSpecificationBuilber;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private final BookSpecificationBuilber bookSpecificationBuilber;
 
     @Override
     public BookDto save(CreateBookRequestDto requestDto) {
@@ -56,5 +60,14 @@ public class BookServiceImpl implements BookService {
         book.setCoverImage(requestDto.getCoverImage());
 
         return bookMapper.toDto(bookRepository.save(book));
+    }
+
+    @Override
+    public List<BookDto> search(BookSearchParameters parameters) {
+        Specification<Book> bookSpecification = bookSpecificationBuilber.build(parameters);
+        return bookRepository.findAll(bookSpecification)
+                .stream()
+                .map(bookMapper::toDto)
+                .toList();
     }
 }
