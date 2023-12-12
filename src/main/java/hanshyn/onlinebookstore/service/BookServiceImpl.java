@@ -8,8 +8,10 @@ import hanshyn.onlinebookstore.mapper.BookMapper;
 import hanshyn.onlinebookstore.model.Book;
 import hanshyn.onlinebookstore.repository.book.BookRepository;
 import hanshyn.onlinebookstore.repository.book.BookSpecificationBuilber;
+
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +29,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDto> getAll() {
-        return bookRepository.findAll().stream()
+    public List<BookDto> getAll(Pageable pageable) {
+        return bookRepository.findAll(pageable).stream()
                 .map(bookMapper::toDto)
                 .toList();
     }
