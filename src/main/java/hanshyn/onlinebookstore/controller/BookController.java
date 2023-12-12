@@ -4,6 +4,7 @@ import hanshyn.onlinebookstore.dto.BookDto;
 import hanshyn.onlinebookstore.dto.BookSearchParameters;
 import hanshyn.onlinebookstore.dto.CreateBookRequestDto;
 import hanshyn.onlinebookstore.service.BookService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,13 +35,13 @@ public class BookController {
     }
 
     @PostMapping
-    public BookDto createBook(@RequestBody CreateBookRequestDto requestDto) {
+    public BookDto createBook(@RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.save(requestDto);
     }
 
     @PutMapping("{id}")
     public BookDto updateEmployee(@PathVariable long id,
-                                  @RequestBody CreateBookRequestDto requestDto) {
+                                  @RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.updateById(requestDto, id);
     }
 
