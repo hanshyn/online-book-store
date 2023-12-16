@@ -1,8 +1,8 @@
-package hanshyn.onlinebookstore.service;
+package hanshyn.onlinebookstore.service.book;
 
-import hanshyn.onlinebookstore.dto.BookDto;
-import hanshyn.onlinebookstore.dto.BookSearchParameters;
-import hanshyn.onlinebookstore.dto.CreateBookRequestDto;
+import hanshyn.onlinebookstore.dto.book.BookDto;
+import hanshyn.onlinebookstore.dto.book.BookSearchParameters;
+import hanshyn.onlinebookstore.dto.book.CreateBookRequestDto;
 import hanshyn.onlinebookstore.exception.EntityNotFoundException;
 import hanshyn.onlinebookstore.mapper.BookMapper;
 import hanshyn.onlinebookstore.model.Book;

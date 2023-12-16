@@ -1,6 +1,6 @@
 package hanshyn.onlinebookstore.repository.book;
 
-import hanshyn.onlinebookstore.dto.BookSearchParameters;
+import hanshyn.onlinebookstore.dto.book.BookSearchParameters;
 import hanshyn.onlinebookstore.model.Book;
 import hanshyn.onlinebookstore.repository.SpecificationBuilder;
 import hanshyn.onlinebookstore.repository.SpecificationProviderManager;

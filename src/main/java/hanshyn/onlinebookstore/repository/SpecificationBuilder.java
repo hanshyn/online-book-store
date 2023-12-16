@@ -1,6 +1,6 @@
 package hanshyn.onlinebookstore.repository;
 
-import hanshyn.onlinebookstore.dto.BookSearchParameters;
+import hanshyn.onlinebookstore.dto.book.BookSearchParameters;
 import org.springframework.data.jpa.domain.Specification;
 
 public interface SpecificationBuilder<T> {
