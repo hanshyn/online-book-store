@@ -1,8 +1,8 @@
-package hanshyn.onlinebookstore.service;
+package hanshyn.onlinebookstore.service.book;
 
-import hanshyn.onlinebookstore.dto.BookDto;
-import hanshyn.onlinebookstore.dto.BookSearchParameters;
-import hanshyn.onlinebookstore.dto.CreateBookRequestDto;
+import hanshyn.onlinebookstore.dto.book.BookDto;
+import hanshyn.onlinebookstore.dto.book.BookSearchParameters;
+import hanshyn.onlinebookstore.dto.book.CreateBookRequestDto;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 

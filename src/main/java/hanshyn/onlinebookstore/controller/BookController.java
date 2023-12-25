@@ -1,9 +1,9 @@
 package hanshyn.onlinebookstore.controller;
 
-import hanshyn.onlinebookstore.dto.BookDto;
-import hanshyn.onlinebookstore.dto.BookSearchParameters;
-import hanshyn.onlinebookstore.dto.CreateBookRequestDto;
-import hanshyn.onlinebookstore.service.BookService;
+import hanshyn.onlinebookstore.dto.book.BookDto;
+import hanshyn.onlinebookstore.dto.book.BookSearchParameters;
+import hanshyn.onlinebookstore.dto.book.CreateBookRequestDto;
+import hanshyn.onlinebookstore.service.book.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -48,8 +48,8 @@ public class BookController {
 
     @Operation(summary = "Update book by id", description = "Update book by id in the store")
     @PutMapping("{id}")
-    public BookDto updateEmployee(@PathVariable long id,
-                                  @RequestBody @Valid CreateBookRequestDto requestDto) {
+    public BookDto updateBook(@PathVariable long id,
+                              @RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.updateById(requestDto, id);
     }
 

@@ -1,8 +1,8 @@
 package hanshyn.onlinebookstore.mapper;
 
 import hanshyn.onlinebookstore.config.MapperConfig;
-import hanshyn.onlinebookstore.dto.BookDto;
-import hanshyn.onlinebookstore.dto.CreateBookRequestDto;
+import hanshyn.onlinebookstore.dto.book.BookDto;
+import hanshyn.onlinebookstore.dto.book.CreateBookRequestDto;
 import hanshyn.onlinebookstore.model.Book;
 import org.mapstruct.Mapper;
 
