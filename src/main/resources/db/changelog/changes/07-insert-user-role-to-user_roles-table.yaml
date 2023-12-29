@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: user-role-to-user_roles-table
+      author: hanshyn
+      preConditions:
+        - sqlCheck:
+            expectedResult: 1
+            sql: SELECT COUNT(*) FROM users WHERE email='admin@example.com'
+        - sqlCheck:
+            expectedResult: 1
+            sql: SELECT COUNT(*) FROM users WHERE email='alis@example.com'
+        - sqlCheck:
+            expectedResult: 1
+            sql: SELECT COUNT(*) FROM roles WHERE role='ADMIN'
+        - sqlCheck:
+            expectedResult: 1
+            sql: SELECT COUNT(*) FROM roles WHERE role='USER'
+      changes:
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueComputed: (SELECT id FROM users WHERE email='admin@example.com')
+              - column:
+                  name: role_id
+                  valueComputed: (SELECT id FROM roles WHERE role='ADMIN')
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueComputed: (SELECT id FROM users WHERE email='alis@example.com')
+              - column:
+                  name: role_id
+                  valueComputed: (SELECT id FROM roles WHERE role='USER')
