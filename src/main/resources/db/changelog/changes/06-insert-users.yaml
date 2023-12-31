@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-users
+      author: hanshyn
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column: {name: email, value: "alis@example.com"}
+              - column: {name: password, value: "$2a$10$5DKwinizopT3GRqI3bq9.OaD9/QEaw2lLS9BsL0OcnIsvhhQ5jMi6"}
+              - column: {name: first_name, value: "Alis"}
+              - column: {name: last_name, value: "Bober"}
+              - column: {name: shipping_address, value: "1 Main St, City, Country"}
+        - insert:
+            tableName: users
+            columns:
+              - column: {name: email, value: "admin@example.com"}
+              - column: {name: password, value: "$2a$10$5DKwinizopT3GRqI3bq9.OaD9/QEaw2lLS9BsL0OcnIsvhhQ5jMi6"}
+              - column: {name: first_name, value: "Admin"}
+              - column: {name: last_name, value: "Admin"}
+              - column: {name: shipping_address, value: "111 Main St, City, Country"}
