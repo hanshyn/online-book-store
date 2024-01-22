@@ -8,6 +8,7 @@ import hanshyn.onlinebookstore.mapper.BookMapper;
 import hanshyn.onlinebookstore.model.Book;
 import hanshyn.onlinebookstore.repository.book.BookRepository;
 import hanshyn.onlinebookstore.repository.book.BookSpecificationBuilber;
+import hanshyn.onlinebookstore.repository.category.CategoryRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,7 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
     private final BookSpecificationBuilber bookSpecificationBuilber;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public BookDto save(CreateBookRequestDto requestDto) {
@@ -68,6 +70,13 @@ public class BookServiceImpl implements BookService {
         Specification<Book> bookSpecification = bookSpecificationBuilber.build(parameters);
         return bookRepository.findAll(bookSpecification)
                 .stream()
+                .map(bookMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    public List<BookDto> findAllByCategoryId(Long categoryId, Pageable pageable) {
+        return bookRepository.findBooksByCategoryId(categoryId, pageable).stream()
                 .map(bookMapper::toDto)
                 .toList();
     }
