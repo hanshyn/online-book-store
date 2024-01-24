@@ -31,7 +31,6 @@ public class CategoryController {
     private final BookService bookService;
 
     @Operation(summary = "Get all categories", description = "Get all categories by store")
-    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping
     public List<CategoryResponseDto> getAll(Pageable pageable) {
         return categoryService.findAll(pageable);
@@ -45,7 +44,6 @@ public class CategoryController {
     }
 
     @Operation(summary = "Get category by id", description = "Get category by id in the store")
-    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping(value = "/{id}")
     public CategoryResponseDto getCategoryById(@PathVariable Long id) {
         return categoryService.getById(id);
@@ -68,7 +66,6 @@ public class CategoryController {
     }
 
     @Operation(summary = "Get books by category id", description = "Get books by category id")
-    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping(value = "/{id}/books")
     public List<BookDto> getBooksByCategoryId(@PathVariable Long id, Pageable pageable) {
         return bookService.findAllByCategoryId(id, pageable);
