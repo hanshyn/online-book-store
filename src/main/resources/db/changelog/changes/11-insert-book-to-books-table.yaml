@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-books
+      author: hanshyn
+      changes:
+        - insert:
+            tableName: books
+            columns:
+              - column: {name: title, value: "Sample Book 1"}
+              - column: {name: author, value: "Author a"}
+              - column: {name: isbn, value: "9781122334455"}
+              - column: {name: price, value: "9.99"}
+              - column: {name: description, value: "Yet another sample book description."}
+              - column: {name: cover_image, value: "http://example.com/cover1.jpg"}
+        - insert:
+            tableName: books
+            columns:
+              - column: { name: title, value: "Sample Book 2" }
+              - column: { name: author, value: "Author b" }
+              - column: { name: isbn, value: "9781122334453" }
+              - column: { name: price, value: "19.99" }
+              - column: { name: description, value: "Yet another sample book description." }
+              - column: { name: cover_image, value: "http://example.com/cover2.jpg" }

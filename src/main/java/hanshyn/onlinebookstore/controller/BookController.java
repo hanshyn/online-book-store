@@ -52,7 +52,7 @@ public class BookController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Update book by id", description = "Update book by id in the store")
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public BookDto updateBook(@PathVariable long id,
                               @RequestBody @Valid CreateBookRequestDto requestDto) {
         return bookService.updateById(requestDto, id);
