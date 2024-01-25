@@ -71,4 +71,3 @@ public class CategoryController {
         return bookService.findAllByCategoryId(id, pageable);
     }
 }
-
