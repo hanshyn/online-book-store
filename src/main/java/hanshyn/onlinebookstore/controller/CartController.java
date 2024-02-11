@@ -4,11 +4,13 @@ import hanshyn.onlinebookstore.dto.cart.CartItemsRequestDto;
 import hanshyn.onlinebookstore.dto.cart.CartItemsResponseDto;
 import hanshyn.onlinebookstore.dto.cart.CartItemsUpdateRequestDto;
 import hanshyn.onlinebookstore.dto.cart.ShoppingCartDto;
+import hanshyn.onlinebookstore.model.User;
 import hanshyn.onlinebookstore.service.cart.ShoppingCartService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Cart", description = "Endpoints for Cart")
@@ -36,9 +39,11 @@ public class CartController {
     @Operation(summary = "Add new cart item in the store",
             description = "Add new cart item in the store")
     @PostMapping
-    public CartItemsResponseDto createCartItem(Authentication authentication,
+    public CartItemsResponseDto createCartItem(
+            Authentication authentication,
             @RequestBody @Valid CartItemsRequestDto cartItemsRequestDto) {
-        return shoppingCartService.saveBookToShoppingCart(authentication, cartItemsRequestDto);
+        User user = (User) authentication.getPrincipal();
+        return shoppingCartService.saveBookToShoppingCart(user, cartItemsRequestDto);
     }
 
     @Operation(summary = "Update quantity of a book",
@@ -52,6 +57,7 @@ public class CartController {
 
     @Operation(summary = "Delete cart items",
             description = "Delete cart items by Id")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/cart-items/{id}")
     public void deleteCartItemById(@PathVariable Long id) {
         shoppingCartService.deleteCartItems(id);

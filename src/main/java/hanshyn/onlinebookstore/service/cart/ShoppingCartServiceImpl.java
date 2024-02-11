@@ -18,7 +18,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -50,11 +52,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public CartItemsResponseDto saveBookToShoppingCart(Authentication authentication,
+    @Transactional
+    public CartItemsResponseDto saveBookToShoppingCart(User user,
                                                        CartItemsRequestDto cartItemsRequestDto) {
-        User user = (User) authentication.getPrincipal();
         ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(user.getId())
-                .orElseGet(() -> createNewShoppingCart(user));
+                .orElseThrow(() -> new RuntimeException("Can]t found user: " + user));
 
         Book book = bookRepository.findById(cartItemsRequestDto.getBookId())
                 .orElseThrow(() -> new EntityNotFoundException("Book by id:"
@@ -72,19 +74,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return cartItemMapper.toDo(cartItem);
     }
 
-    private ShoppingCart createNewShoppingCart(User user) {
-        ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.setUser(user);
-        return shoppingCartRepository.save(shoppingCart);
-    }
-
     @Override
     public CartItemsResponseDto updateQuantity(CartItemsUpdateRequestDto cartItemsUpdateRequestDto,
                                                Long id) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        CartItem cartItem = cartItemRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Can't found cart item:by id " + id));
-
+        CartItem cartItem = getCartItemById(user, id);
         cartItem.setQuantity(cartItemsUpdateRequestDto.getQuantity());
 
         return cartItemMapper.toDo(cartItemRepository.save(cartItem));
@@ -92,6 +87,21 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public void deleteCartItems(Long id) {
-        cartItemRepository.deleteById(id);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CartItem cartItem = getCartItemById(user, id);
+        cartItemRepository.delete(cartItem);
+    }
+
+    private CartItem getCartItemById(User user, Long id) {
+        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new RuntimeException("Can't found user by id: " + user.getId()));
+
+        Set<CartItem> cartItemSet = cartItemRepository.findByShoppingCartId(shoppingCart.getId());
+
+        CartItem cartItem = cartItemSet.stream()
+                .filter(cart -> cart.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Can't found cart items by id :" + id));
+        return cartItem;
     }
 }
