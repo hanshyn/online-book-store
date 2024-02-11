@@ -5,6 +5,7 @@ import hanshyn.onlinebookstore.dto.cart.CartItemsResponseDto;
 import hanshyn.onlinebookstore.dto.cart.CartItemsUpdateRequestDto;
 import hanshyn.onlinebookstore.dto.cart.ShoppingCartDto;
 import hanshyn.onlinebookstore.exception.EntityNotFoundException;
+import hanshyn.onlinebookstore.exception.UserNotFoundException;
 import hanshyn.onlinebookstore.mapper.CartItemMapper;
 import hanshyn.onlinebookstore.mapper.ShoppingCartMapper;
 import hanshyn.onlinebookstore.model.Book;
@@ -17,6 +18,7 @@ import hanshyn.onlinebookstore.repository.shopping.ShoppingCartRepository;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -31,12 +33,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartMapper shoppingCartMapper;
     private final BookRepository bookRepository;
 
+    @SneakyThrows
     @Override
     public ShoppingCartDto getShoppingCart(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
 
         ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(user.getId()).orElseThrow(
-                () -> new RuntimeException("Can't found user: user")
+                () -> new UserNotFoundException("Can't found user: user")
         );
 
         Set<CartItem> cartItem = cartItemRepository.findByShoppingCartId(shoppingCart.getId());
@@ -93,15 +96,16 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     private CartItem getCartItemById(User user, Long id) {
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(user.getId())
-                .orElseThrow(() -> new RuntimeException("Can't found user by id: " + user.getId()));
+        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(user.getId()).orElseThrow(
+                () -> new EntityNotFoundException("Can't found shopping cart for user by id: "
+                        + user.getId()));
 
         Set<CartItem> cartItemSet = cartItemRepository.findByShoppingCartId(shoppingCart.getId());
 
-        CartItem cartItem = cartItemSet.stream()
+        return cartItemSet.stream()
                 .filter(cart -> cart.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Can't found cart items by id :" + id));
-        return cartItem;
+                .orElseThrow(
+                        () -> new EntityNotFoundException("Can't found cart items by id :" + id));
     }
 }

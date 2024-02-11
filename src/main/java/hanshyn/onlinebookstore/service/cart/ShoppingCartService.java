@@ -13,8 +13,7 @@ public interface ShoppingCartService {
     CartItemsResponseDto saveBookToShoppingCart(User user,
                                                 CartItemsRequestDto cartItemsRequestDto);
 
-    CartItemsResponseDto updateQuantity(
-                                        CartItemsUpdateRequestDto cartItemsUpdateRequestDto,
+    CartItemsResponseDto updateQuantity(CartItemsUpdateRequestDto cartItemsUpdateRequestDto,
                                         Long id);
 
     void deleteCartItems(Long id);
