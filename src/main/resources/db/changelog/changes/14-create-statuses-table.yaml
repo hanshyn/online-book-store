@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: crate-statuses-table
+      author: hanshyn
+      changes:
+        - createTable:
+            tableName: statuses
+            columns:
+              - column:
+                  name: status_id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
