@@ -15,13 +15,3 @@ public record OrderResponseDto(
 
 ) {
 }
-/*@Data
-public class OrderResponseDto {
-    private Long id;
-    private Long userId;
-    private Set<OrderItemResponseDto> orderItems;
-    private LocalDateTime orderDate;
-    private BigDecimal total;
-    private OrderStatus.Status status;
-}
- */
