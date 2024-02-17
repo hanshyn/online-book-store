@@ -59,7 +59,6 @@ public class OrderServiceImpl implements OrderService {
                 .map(cartItem -> cartItemToOrderItem(cartItem, order))
                 .collect(Collectors.toSet());
 
-        cartItemRepository.deleteAll();
         orderItemRepository.saveAll(orderItems);
 
         Set<OrderItemResponseDto> orderItemResponseDtos = orderItemRepository
@@ -151,6 +150,8 @@ public class OrderServiceImpl implements OrderService {
         orderItem.setBook(cartItem.getBook());
         orderItem.setQuantity(cartItem.getQuantity());
         orderItem.setPrice(cartItem.getBook().getPrice());
+
+        cartItemRepository.delete(cartItem);
         return orderItem;
     }
 }
