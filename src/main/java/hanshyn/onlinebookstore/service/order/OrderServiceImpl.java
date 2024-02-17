@@ -20,6 +20,7 @@ import hanshyn.onlinebookstore.repository.shopping.CartItemRepository;
 import hanshyn.onlinebookstore.repository.shopping.ShoppingCartRepository;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -67,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toSet());
 
         OrderResponseDto orderResponseDto = orderMapper.toDto(order);
-        orderResponseDto.setOrderItems(orderItemResponseDtos);
+        orderResponseDto.orderItems().addAll(orderItemResponseDtos);
 
         return orderResponseDto;
     }
@@ -128,6 +129,7 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderDate(LocalDateTime.now());
         order.setTotal(countTotal(shoppingCart));
         order.setStatus(statusOrder);
+        order.setOrderItems(new HashSet<>());
         order.setShippingAddress(orderPlaceRequestDto.shippingAddress());
 
         orderRepository.save(order);

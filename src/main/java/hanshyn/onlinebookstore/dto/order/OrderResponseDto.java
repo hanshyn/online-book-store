@@ -6,7 +6,17 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import lombok.Data;
 
-@Data
+public record OrderResponseDto(
+        Long id,
+        Long userId,
+        Set<OrderItemResponseDto> orderItems,
+        LocalDateTime orderDate,
+        BigDecimal total,
+        OrderStatus.Status status
+
+) {
+}
+/*@Data
 public class OrderResponseDto {
     private Long id;
     private Long userId;
@@ -15,3 +25,4 @@ public class OrderResponseDto {
     private BigDecimal total;
     private OrderStatus.Status status;
 }
+ */
