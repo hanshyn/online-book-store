@@ -10,8 +10,8 @@ import hanshyn.onlinebookstore.mapper.OrderMapper;
 import hanshyn.onlinebookstore.model.CartItem;
 import hanshyn.onlinebookstore.model.Order;
 import hanshyn.onlinebookstore.model.OrderItem;
+import hanshyn.onlinebookstore.model.OrderStatus;
 import hanshyn.onlinebookstore.model.ShoppingCart;
-import hanshyn.onlinebookstore.model.StatusOrder;
 import hanshyn.onlinebookstore.model.User;
 import hanshyn.onlinebookstore.repository.order.OrderItemRepository;
 import hanshyn.onlinebookstore.repository.order.OrderRepository;
@@ -49,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
                 () -> new EntityNotFoundException("Can't found user by usr_id: " + user.getId())
         );
 
-        StatusOrder statusOrder = statusOrderRepository.findByStatus(StatusOrder.Status.PENDING);
+        OrderStatus statusOrder = statusOrderRepository.findByStatus(OrderStatus.Status.PENDING);
 
         Order order = addNewOrder(user, shoppingCart, statusOrder, orderPlaceRequestDto);
 
@@ -88,8 +88,8 @@ public class OrderServiceImpl implements OrderService {
 
         Order order = orderRepository.findOrderByIdAndUserId(orderId, user.getId());
 
-        StatusOrder statusOrder = statusOrderRepository.findByStatus(
-                StatusOrder.Status.valueOf(orderUpdateStatusRequestDto.status()));
+        OrderStatus statusOrder = statusOrderRepository.findByStatus(
+                OrderStatus.Status.valueOf(orderUpdateStatusRequestDto.status()));
 
         order.setStatus(statusOrder);
         orderRepository.save(order);
@@ -121,7 +121,7 @@ public class OrderServiceImpl implements OrderService {
 
     private Order addNewOrder(User user,
                               ShoppingCart shoppingCart,
-                              StatusOrder statusOrder,
+                              OrderStatus statusOrder,
                               OrderPlaceRequestDto orderPlaceRequestDto) {
         Order order = new Order();
         order.setUser(user);

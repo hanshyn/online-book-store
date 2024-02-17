@@ -36,7 +36,7 @@ public class Order {
     @ToString.Exclude
     @JoinColumn(name = "status_id", nullable = false)
     @ManyToOne
-    private StatusOrder status;
+    private OrderStatus status;
 
     @Column(nullable = false)
     private BigDecimal total;

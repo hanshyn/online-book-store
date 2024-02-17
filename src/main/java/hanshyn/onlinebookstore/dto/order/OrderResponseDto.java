@@ -1,6 +1,6 @@
 package hanshyn.onlinebookstore.dto.order;
 
-import hanshyn.onlinebookstore.model.StatusOrder;
+import hanshyn.onlinebookstore.model.OrderStatus;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -13,5 +13,5 @@ public class OrderResponseDto {
     private Set<OrderItemResponseDto> orderItems;
     private LocalDateTime orderDate;
     private BigDecimal total;
-    private StatusOrder.Status status;
+    private OrderStatus.Status status;
 }
