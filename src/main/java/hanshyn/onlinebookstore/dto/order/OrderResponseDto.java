@@ -4,7 +4,6 @@ import hanshyn.onlinebookstore.model.OrderStatus;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
-import lombok.Data;
 
 public record OrderResponseDto(
         Long id,

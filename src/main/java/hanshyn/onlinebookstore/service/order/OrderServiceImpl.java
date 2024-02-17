@@ -1,5 +1,7 @@
 package hanshyn.onlinebookstore.service.order;
 
+import static hanshyn.onlinebookstore.model.OrderStatus.Status.PENDING;
+
 import hanshyn.onlinebookstore.dto.order.OrderItemResponseDto;
 import hanshyn.onlinebookstore.dto.order.OrderPlaceRequestDto;
 import hanshyn.onlinebookstore.dto.order.OrderResponseDto;
@@ -50,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
                 () -> new EntityNotFoundException("Can't found user by usr_id: " + user.getId())
         );
 
-        OrderStatus statusOrder = statusOrderRepository.findByStatus(OrderStatus.Status.PENDING);
+        OrderStatus statusOrder = statusOrderRepository.findByStatus(PENDING);
 
         Order order = addNewOrder(user, shoppingCart, statusOrder, orderPlaceRequestDto);
 
