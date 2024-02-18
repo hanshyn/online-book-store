@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-shopping-cart-to-shopping-cart-table
+      author: hanshyn
+      changes:
+        - insert:
+            tableName: shopping_carts
+            columns:
+              - column:
+                  name: user_id
+                  valueComputed: (SELECT id FROM users WHERE email='alis@example.com')
+              - column:
+                  name: user_id
+                  valueComputed: (SELECT id FROM users WHERE email='admin@example.com')

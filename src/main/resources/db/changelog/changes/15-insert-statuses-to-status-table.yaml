@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-statuses-to-status-table
+      author: hanshyn
+      changes:
+        - insert:
+            tableName: statuses
+            columns:
+              - column:
+                  name: status
+                  value: "COMPLETED"
+        - insert:
+            tableName: statuses
+            columns:
+              - column:
+                  name: status
+                  value: "PENDING"
+        - insert:
+            tableName: statuses
+            columns:
+              - column:
+                  name: status
+                  value: "DELIVERED"
+        - insert:
+            tableName: statuses
+            columns:
+              - column:
+                  name: status
+                  value: "CANCELLED"

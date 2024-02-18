@@ -39,7 +39,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         User user = (User) authentication.getPrincipal();
 
         ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(user.getId()).orElseThrow(
-                () -> new UserNotFoundException("Can't found user: user")
+                () -> new UserNotFoundException("Can't found user: " + user.getId())
         );
 
         Set<CartItem> cartItem = cartItemRepository.findByShoppingCartId(shoppingCart.getId());
