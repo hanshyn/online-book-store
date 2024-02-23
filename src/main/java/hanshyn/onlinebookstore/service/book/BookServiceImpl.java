@@ -6,10 +6,13 @@ import hanshyn.onlinebookstore.dto.book.CreateBookRequestDto;
 import hanshyn.onlinebookstore.exception.EntityNotFoundException;
 import hanshyn.onlinebookstore.mapper.BookMapper;
 import hanshyn.onlinebookstore.model.Book;
+import hanshyn.onlinebookstore.model.Category;
 import hanshyn.onlinebookstore.repository.book.BookRepository;
 import hanshyn.onlinebookstore.repository.book.BookSpecificationBuilber;
 import hanshyn.onlinebookstore.repository.category.CategoryRepository;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -26,6 +29,8 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDto save(CreateBookRequestDto requestDto) {
         Book book = bookMapper.toModel(requestDto);
+        Set<Category> categories = getCategoriesByIds(requestDto);
+        book.setCategories(categories);
         return bookMapper.toDto(bookRepository.save(book));
     }
 
@@ -55,12 +60,15 @@ public class BookServiceImpl implements BookService {
                 () -> new EntityNotFoundException("Can't find book by id: " + id)
         );
 
+        Set<Category> categories = getCategoriesByIds(requestDto);
+
         book.setTitle(requestDto.getTitle());
         book.setAuthor(requestDto.getAuthor());
         book.setIsbn(requestDto.getIsbn());
         book.setPrice(requestDto.getPrice());
         book.setDescription(requestDto.getDescription());
         book.setCoverImage(requestDto.getCoverImage());
+        book.setCategories(categories);
 
         return bookMapper.toDto(bookRepository.save(book));
     }
@@ -79,5 +87,13 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findBooksByCategoryId(categoryId, pageable).stream()
                 .map(bookMapper::toDto)
                 .toList();
+    }
+
+    private Set<Category> getCategoriesByIds(CreateBookRequestDto requestDto) {
+        return requestDto.getCategoryIds().stream()
+                .map(categoryId -> categoryRepository.findById(categoryId).orElseThrow(
+                        () -> new EntityNotFoundException("Can't find category by id:"
+                                + categoryId)))
+                .collect(Collectors.toSet());
     }
 }
