@@ -59,14 +59,7 @@ public class BookServiceTest {
     @Test
     @DisplayName("Create book with valid data. Send CreatBookRequestDto return bookDto")
     public void save_ValidCreateRequestBookDto_ReturnValidBookDto() {
-        CreateBookRequestDto bookRequestDto = new CreateBookRequestDto();
-        bookRequestDto.setTitle(TITLE);
-        bookRequestDto.setAuthor(AUTHOR);
-        bookRequestDto.setIsbn(ISBN);
-        bookRequestDto.setPrice(PRICE);
-        bookRequestDto.setDescription(DESCRIPTION);
-        bookRequestDto.setCoverImage(COVER_IMAGE);
-        bookRequestDto.setCategoryIds(Set.of(CATEGORY_ID));
+        CreateBookRequestDto bookRequestDto = defaultBookRequestDto();
 
         Set<Category> categories = defaultCategory();
 
@@ -139,14 +132,7 @@ public class BookServiceTest {
         Book book = defaultBook();
         book.setId(VALID_ID);
 
-        CreateBookRequestDto updateBookRequestDto = new CreateBookRequestDto();
-        updateBookRequestDto.setTitle(UPDATE_STRING + TITLE);
-        updateBookRequestDto.setAuthor(UPDATE_STRING + AUTHOR);
-        updateBookRequestDto.setIsbn(ISBN);
-        updateBookRequestDto.setPrice(PRICE);
-        updateBookRequestDto.setDescription(DESCRIPTION);
-        updateBookRequestDto.setCoverImage(COVER_IMAGE);
-        updateBookRequestDto.setCategoryIds(Set.of());
+        CreateBookRequestDto updateBookRequestDto = updateBookRequestDto();
 
         Book updateBook = defaultBook();
         updateBook.setId(VALID_ID);
@@ -174,6 +160,30 @@ public class BookServiceTest {
 
         Assertions.assertThrows(EntityNotFoundException.class,
                 () -> bookService.updateById(updateBookRequestDto, INVALID_ID));
+    }
+
+    private CreateBookRequestDto defaultBookRequestDto() {
+        CreateBookRequestDto bookRequestDto = new CreateBookRequestDto();
+        bookRequestDto.setTitle(TITLE);
+        bookRequestDto.setAuthor(AUTHOR);
+        bookRequestDto.setIsbn(ISBN);
+        bookRequestDto.setPrice(PRICE);
+        bookRequestDto.setDescription(DESCRIPTION);
+        bookRequestDto.setCoverImage(COVER_IMAGE);
+        bookRequestDto.setCategoryIds(Set.of(CATEGORY_ID));
+        return bookRequestDto;
+    }
+
+    private CreateBookRequestDto updateBookRequestDto() {
+        CreateBookRequestDto updateBookRequestDto = new CreateBookRequestDto();
+        updateBookRequestDto.setTitle(UPDATE_STRING + TITLE);
+        updateBookRequestDto.setAuthor(UPDATE_STRING + AUTHOR);
+        updateBookRequestDto.setIsbn(ISBN);
+        updateBookRequestDto.setPrice(PRICE);
+        updateBookRequestDto.setDescription(DESCRIPTION);
+        updateBookRequestDto.setCoverImage(COVER_IMAGE);
+        updateBookRequestDto.setCategoryIds(Set.of());
+        return updateBookRequestDto;
     }
 
     private Book defaultBook() {
