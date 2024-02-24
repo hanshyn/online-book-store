@@ -56,23 +56,9 @@ public class BookControllerTest {
     @Sql(scripts = "classpath:database/controller/delete-all-books.sql",
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void createBook_ValidRequest_Success() throws Exception {
-        CreateBookRequestDto bookRequestDto = new CreateBookRequestDto();
-        bookRequestDto.setTitle(TITLE);
-        bookRequestDto.setAuthor(AUTHOR);
-        bookRequestDto.setIsbn(ISBN);
-        bookRequestDto.setPrice(PRICE);
-        bookRequestDto.setDescription(DESCRIPTION);
-        bookRequestDto.setCoverImage(COVER_IMAGE);
-        bookRequestDto.setCategoryIds(Set.of());
+        CreateBookRequestDto bookRequestDto = defaultBookRequestDto();
 
-        BookDto expected = new BookDto();
-        expected.setTitle(bookRequestDto.getTitle());
-        expected.setAuthor(bookRequestDto.getAuthor());
-        expected.setIsbn(bookRequestDto.getIsbn());
-        expected.setPrice(bookRequestDto.getPrice());
-        expected.setDescription(bookRequestDto.getDescription());
-        expected.setCoverImage(bookRequestDto.getCoverImage());
-        expected.setCategoryIds(bookRequestDto.getCategoryIds());
+        BookDto expected = convertBookRequestDtoToBookDto(bookRequestDto);
 
         String jsonRequest = objectMapper.writeValueAsString(bookRequestDto);
 
@@ -118,15 +104,7 @@ public class BookControllerTest {
     @Sql(scripts = "classpath:database/controller/add-three-books.sql",
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     public void getBookById_ValidId_ReturnBookDto() throws Exception {
-        BookDto expected = new BookDto();
-        expected.setId(BOOK_ID);
-        expected.setTitle(TITLE);
-        expected.setAuthor(AUTHOR);
-        expected.setIsbn(ISBN);
-        expected.setPrice(PRICE);
-        expected.setDescription(DESCRIPTION);
-        expected.setCoverImage(COVER_IMAGE);
-        expected.setCategoryIds(Set.of());
+        BookDto expected = defaultBookDto();
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders
                         .get("/books/{id}", VALID_ID)
@@ -140,5 +118,42 @@ public class BookControllerTest {
         Assertions.assertNotNull(actual);
         Assertions.assertEquals(VALID_ID, actual.getId());
         Assertions.assertEquals(expected, actual);
+    }
+
+    private CreateBookRequestDto defaultBookRequestDto() {
+        CreateBookRequestDto bookRequestDto = new CreateBookRequestDto();
+        bookRequestDto.setTitle(TITLE);
+        bookRequestDto.setAuthor(AUTHOR);
+        bookRequestDto.setIsbn(ISBN);
+        bookRequestDto.setPrice(PRICE);
+        bookRequestDto.setDescription(DESCRIPTION);
+        bookRequestDto.setCoverImage(COVER_IMAGE);
+        bookRequestDto.setCategoryIds(Set.of());
+        return bookRequestDto;
+    }
+
+    private BookDto convertBookRequestDtoToBookDto(CreateBookRequestDto bookRequestDto) {
+        BookDto bookDto = new BookDto();
+        bookDto.setTitle(bookRequestDto.getTitle());
+        bookDto.setAuthor(bookRequestDto.getAuthor());
+        bookDto.setIsbn(bookRequestDto.getIsbn());
+        bookDto.setPrice(bookRequestDto.getPrice());
+        bookDto.setDescription(bookRequestDto.getDescription());
+        bookDto.setCoverImage(bookRequestDto.getCoverImage());
+        bookDto.setCategoryIds(bookRequestDto.getCategoryIds());
+        return bookDto;
+    }
+
+    private BookDto defaultBookDto() {
+        BookDto bookDto = new BookDto();
+        bookDto.setId(BOOK_ID);
+        bookDto.setTitle(TITLE);
+        bookDto.setAuthor(AUTHOR);
+        bookDto.setIsbn(ISBN);
+        bookDto.setPrice(PRICE);
+        bookDto.setDescription(DESCRIPTION);
+        bookDto.setCoverImage(COVER_IMAGE);
+        bookDto.setCategoryIds(Set.of());
+        return bookDto;
     }
 }

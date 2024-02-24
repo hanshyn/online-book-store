@@ -23,7 +23,6 @@ public class BookRepositoryTest {
     private static final Long CATEGORY_ID_TWO = 2L;
     private static final int EXPECTED_TWO = 2;
     private static final Long CATEGORY_ID_INVALID = 10L;
-    private static final int EXPECTED_NULL = 0;
     private static final int PAGE_NUMBER = 0;
     private static final int PAGE_SIZE = 10;
 
@@ -57,6 +56,6 @@ public class BookRepositoryTest {
                 CATEGORY_ID_INVALID,
                 PageRequest.of(PAGE_NUMBER, PAGE_SIZE));
 
-        Assertions.assertEquals(EXPECTED_NULL, actual.size());
+        Assertions.assertTrue(actual.isEmpty());
     }
 }
