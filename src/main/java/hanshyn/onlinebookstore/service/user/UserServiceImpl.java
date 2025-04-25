@@ -4,10 +4,14 @@ import hanshyn.onlinebookstore.dto.user.UserRegistrationRequestDto;
 import hanshyn.onlinebookstore.dto.user.UserResponseDto;
 import hanshyn.onlinebookstore.exception.RegistrationException;
 import hanshyn.onlinebookstore.mapper.UserMapper;
+import hanshyn.onlinebookstore.model.Role;
 import hanshyn.onlinebookstore.model.ShoppingCart;
 import hanshyn.onlinebookstore.model.User;
+import hanshyn.onlinebookstore.repository.role.RoleRepository;
 import hanshyn.onlinebookstore.repository.shopping.ShoppingCartRepository;
 import hanshyn.onlinebookstore.repository.user.UserRepository;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +24,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final ShoppingCartRepository shoppingCartRepository;
+    private final RoleRepository roleRepository;
 
     @Transactional
     @Override
@@ -35,6 +40,13 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(requestDto.getFirstName());
         user.setLastName(requestDto.getLastName());
         user.setShippingAddress(requestDto.getShippingAddress());
+
+        Role userRole = roleRepository.findByRole(Role.RoleName.USER);
+
+        Set<Role> userRoles = new HashSet<>();
+        userRoles.add(userRole);
+
+        user.setRoles(userRoles);
         User savedUser = userRepository.save(user);
 
         createNewShoppingCart(user);

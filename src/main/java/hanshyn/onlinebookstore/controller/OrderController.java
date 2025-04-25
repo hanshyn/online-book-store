@@ -7,6 +7,7 @@ import hanshyn.onlinebookstore.dto.order.OrderUpdateStatusRequestDto;
 import hanshyn.onlinebookstore.model.User;
 import hanshyn.onlinebookstore.service.order.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@SecurityRequirement(name = "bearerAuth")
 @Tag(name = "Orders", description = "Endpoints for orders")
 @RequiredArgsConstructor
 @RequestMapping(value = "/orders")

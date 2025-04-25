@@ -6,6 +6,7 @@ import hanshyn.onlinebookstore.dto.category.CreateCategoryRequestDto;
 import hanshyn.onlinebookstore.service.book.BookService;
 import hanshyn.onlinebookstore.service.category.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+@SecurityRequirement(name = "bearerAuth")
 @Tag(name = "Categories", description = "Endpoints for category")
 @RequiredArgsConstructor
 @RestController
