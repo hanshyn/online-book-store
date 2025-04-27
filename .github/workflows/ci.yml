@@ -1,6 +1,14 @@
 name: Java CI
 
-on: [push, pull_request]
+on: 
+  push:
+    branches:
+      docs/update-readme
+      
+  pull_request:
+    branches:
+      docs/update-readme
+  workflow_dispatch:    
 
 jobs:
   build:
