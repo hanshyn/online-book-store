@@ -126,7 +126,7 @@ docker-compose up --build
 
 ## 🌐 How to run the project in Codespaces
 ### 1. Create a Codespaces on master: 
-![The Codespaces](images/Screenshot 2025-04-28 at 15.23.06.png "Create a codespaces on master")
+![The Codespaces](images/codespaces.png "Create a codespaces on master")
 
 ### 2. Checking and Setting up Java in Codespaces:
 * verify if Java is installed in your Codespace:
